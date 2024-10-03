@@ -3,6 +3,7 @@
 // import Image from "next/image";
 import Layout from "./components/Layout";
 import DashboardPage from "./dashboard/page";
+import Orders from "./order/page";
 
 
 export default function Home() {

@@ -1,4 +1,6 @@
 import React from 'react';
+import Layout from "../components/Layout";
+
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
@@ -10,7 +12,7 @@ interface BarChartData {
 
 // Define the props for the component with a specific data type
 interface BarChartComponentProps {
-  data: BarChartData[];  // The data is an array of BarChartData objects
+  data: BarChartData[]; 
   xAxisKey: string;
   barDataKey: string;
   title: string;
@@ -24,8 +26,8 @@ const BarChartComponent: React.FC<BarChartComponentProps> = ({
   return (
     <div className="bg-white p-6 rounded-lg shadow-lg mb-4 md:mb-8">
       <h2 className="text-xl font-semibold mb-4 text-center">{title}</h2>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <ResponsiveContainer width="100%" height={500}>
+        <BarChart data={data} margin={{ top: 20, right: 50, left: 30, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis 
             dataKey={xAxisKey} 
@@ -46,7 +48,7 @@ const BarChartComponent: React.FC<BarChartComponentProps> = ({
             }}
           />
           <Tooltip />
-          <Bar dataKey={barDataKey} fill={barColor} barSize={30} />
+          <Bar dataKey={barDataKey} fill={barColor} barSize={70} />
         </BarChart>
       </ResponsiveContainer>
     </div>
