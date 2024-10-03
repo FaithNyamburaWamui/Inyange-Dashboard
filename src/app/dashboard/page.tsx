@@ -78,8 +78,8 @@ const DashboardPage: React.FC = () => {
   if (error) return <div>Error loading data: {error}</div>;
 
   return (
-    <Layout>
-      <div className="flex justify-center">
+    <div>
+      <div className="flex justify-center" >
       <h1 className="text-center text-l md:text-2xl font-bold mt-8 mb-4">Dashboard</h1>
       </div>
 
@@ -109,7 +109,7 @@ const DashboardPage: React.FC = () => {
           />
         </div>
       </div>
-    </Layout>
+      </div>
   );
 };
 

@@ -2,14 +2,14 @@
 
 // import Image from "next/image";
 import Layout from "./components/Layout";
-import InventoryPage from "./inventory/page";
+import DashboardPage from "./dashboard/page";
 
 
 export default function Home() {
   return (
     <Layout>
     <div>
-  
+      <DashboardPage/>
     </div>
     </Layout>
   );
