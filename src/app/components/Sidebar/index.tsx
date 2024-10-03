@@ -18,11 +18,11 @@ const Sidebar = () => {
           alt="BuildMart Logo"
           width={200}
           height={200}
-          className='ml-[50px] mt-[50px]'
+          className='ml-[50px] mt-[10px]'
         />
       </div>
 
-      <nav className="flex flex-col space-y-14 mt-[130px] ml-[70px] font-bold">
+      <nav className="flex flex-col space-y-14 mt-[90px] ml-[70px] font-bold">
         <Link 
           href="/" 
           className={`flex items-center space-x-4 ${activeLink === '/' ? 'text-[#F8B612]' : 'text-white'} hover:text-[#F8B612] transition-all duration-300`} 
