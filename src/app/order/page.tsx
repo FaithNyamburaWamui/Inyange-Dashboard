@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useOrders } from "../hooks/useOrders";
 import { Order } from "../utils/types";
 import Link from "next/link";

@@ -24,10 +24,10 @@ export interface MaterialData {
   
   export interface Order {
     total_price: ReactNode;
-    totalAmount: any;
+    totalAmount: number;
     customerName: ReactNode;
     order_id: number;
-    itemNumber: any;
+    itemNumber: number;
     id?: number;
     order_date: string;
     status: string;
@@ -41,8 +41,8 @@ export interface MaterialData {
   }
   
   export interface Credentials{
-    email:String;
-    password:String;
+    email:string;
+    password:string;
  }
  
  

@@ -3,41 +3,23 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useOrderById } from '../hooks/useOrderById';
-import { Order } from '../utils/types';
 
 interface OrderDetailPageProps {
   params: { id: string };
 }
 
 const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
-  console.log("Component rendered. Full params object:", JSON.stringify(params));
   const [orderId, setOrderId] = useState<number | null>(null);
 
+  // Parse orderId from params at the beginning
   useEffect(() => {
-    console.log("useEffect triggered. Full params object:", JSON.stringify(params));
-    if (params && params.id) {
-      const parsed = parseInt(params.id, 10);
-      console.log(`Parsed order ID: ${parsed}`);
-      const validOrderId = !isNaN(parsed) && parsed > 0 ? parsed : null;
-      console.log(`Valid order ID: ${validOrderId}`);
-      setOrderId(validOrderId);
+    const parsed = parseInt(params.id, 10);
+    if (!isNaN(parsed) && parsed > 0) {
+      setOrderId(parsed);
     } else {
-      console.log("params.id is undefined or empty");
+      setOrderId(null); // Set to null if invalid
     }
-  }, [params]);
-
-
-  console.log("Current orderId state:", orderId);
-
-  if (orderId === null) {
-    console.log("Rendering Invalid order ID message");
-    return (
-      <div className="p-4">
-        <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
-        <div className="text-red-500 font-bold">Invalid order ID</div>
-      </div>
-    );
-  }
+  }, [params.id]); // Depend only on params.id
 
   const { order, isLoading, error, cancelOrder } = useOrderById(orderId);
   const [isCancelling, setIsCancelling] = useState(false);
@@ -67,11 +49,39 @@ const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
     }
   };
 
-  if (isLoading) return <div className='text-[15px] ml-[100px] mt-[100px]'>Loading...</div>;
-  if (error) return <div className="p-4"><Link href="/order" className="mb-4 inline-block">&lt; Back</Link><div className="text-red-500">Error: {error}</div></div>;
-  if (!order) return <div className="p-4"><Link href="/order" className="mb-4 inline-block">&lt; Back</Link><div>No order found</div></div>;
+  if (orderId === null) {
+    return (
+      <div className="p-4">
+        <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
+        <div className="text-red-500 font-bold">Invalid order ID</div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return <div className='text-[15px] ml-[100px] mt-[100px]'>Loading...</div>;
+  }
+
+  if (error)  {
+    return (
+      <div className="p-4">
+        <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
+        <div className="text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
+
+  if (!order) {
+    return (
+      <div className="p-4">
+        <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
+        <div>No order found</div>
+      </div>
+    );
+  }
 
   const orderItems = order.cart_data ? Object.values(order.cart_data) : [];
+
   return (
     <div className="p-4">
       <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
@@ -82,7 +92,7 @@ const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
           {order.status}
         </span>
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {orderItems.map((item, index) => (
           <div key={index} className="border p-2">
@@ -94,7 +104,7 @@ const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
           </div>
         ))}
       </div>
-      
+
       <div className="mt-4 flex justify-between items-center">
         <button 
           onClick={handleCancel} 
@@ -108,7 +118,7 @@ const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
           <span className="ml-2">shs {order.total_price}</span>
         </div>
       </div>
-      
+
       <div className="mt-4 flex justify-center">
         <button className="mx-1 px-3 py-1 bg-yellow-500 rounded">1</button>
         <button className="mx-1 px-3 py-1 bg-gray-200 rounded">2</button>
@@ -119,13 +129,3 @@ const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
 };
 
 export default OrderDetailPage;
-
-
-
-
-
-
-
-
-
-
