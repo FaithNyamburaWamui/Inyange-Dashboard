@@ -13,7 +13,7 @@ import Image from 'next/image';
 
 const InventoryPage: React.FC = () => {
   const { materials, loading, error, setMaterials } = useFetchMaterials();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState<MaterialData | null>(

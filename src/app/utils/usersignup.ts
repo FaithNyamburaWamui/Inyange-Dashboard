@@ -3,9 +3,9 @@ interface UserData {
     last_name:string,
     email: string,
     password: string,
-    username:String,
-    phone_number:String,
-    user_role:String
+    username:string,
+    phone_number:string,
+    user_role:string
   }
  
  

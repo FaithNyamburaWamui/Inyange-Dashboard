@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import * as Yup from 'yup';
 import { FaTimes } from "react-icons/fa";
 import { IoCloudUpload } from "react-icons/io5";
 import { addMaterial } from "@/app/utils/addMaterials";
@@ -14,17 +14,21 @@ interface MaterialData {
   description: string;
   quantity: number;
   price: number;
-  image: File | null;
+  image: File | null | undefined;
 }
 
-const schema = yup.object().shape({
-  material_name: yup.string().required("Material name is required"),
-  brand_name: yup.string().required("Brand name is required"),
-  category_name: yup.string().required("Category name is required"),
-  description: yup.string().required("Description is required"),
-  quantity: yup.number().required("Quantity is required").positive().integer(),
-  price: yup.number().required("Price is required").positive(),
-  image: yup.mixed().nullable(),
+const schema = Yup.object().shape({
+  image: Yup.mixed()
+    .required('Image is required')
+    .test('fileType', 'Unsupported file format', value => {
+      return value && value instanceof File; // Ensure it's a File type
+    }),
+  material_name: Yup.string().required('Material name is required'),
+  brand_name: Yup.string().required('Brand name is required'),
+  category_name: Yup.string().required('Category name is required'),
+  description: Yup.string().required('Description is required'),
+  quantity: Yup.number().required('Quantity is required').positive().integer(),
+  price: Yup.number().required('Price is required').positive(),
 });
 
 const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
@@ -42,6 +46,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
     reset,
     formState: { errors },
   } = useForm<MaterialData>({
+
     resolver: yupResolver(schema),
     defaultValues: {
       material_name: "",
@@ -57,7 +62,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setValue("image", file, { shouldValidate: true });
+      setValue("image", null, { shouldValidate: true });
       setImagePreview(URL.createObjectURL(file));
     } else {
       setValue("image", null, { shouldValidate: true });
@@ -86,11 +91,14 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
         reset();
         setImagePreview(null);
       }
-    } catch (error: any) {
-      setFeedbackMessage(
-        `Failed to add material: ${error.message || "Unknown error"}`
-      );
-      setFeedbackType("error");
+    } catch (error: unknown) {
+      let errorMessage = "Unknown error occurred";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      }
+      setFeedbackMessage(`Failed to add material: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -209,9 +217,10 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
                     <Image
                       src={imagePreview}
                       alt="Preview"
-                      className="max-h-24 mx-auto"
                       width={100} 
                       height={100}
+                      className="max-h-24 mx-auto"
+
                     />
                     <button
                       type="button"

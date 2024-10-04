@@ -13,8 +13,7 @@ export async function PUT(request: NextRequest, { params }: { params: { material
         
         const formData = await request.formData();
 
-       
-        const requestData: any = {};
+        const requestData: { [key: string]: string | File } = {};
         formData.forEach((value, key) => {
             requestData[key] = value;
         });

@@ -98,11 +98,14 @@ const EditMaterialModal = ({
         onMaterialUpdated(response);
         onClose();
       }
-    } catch (error: any) {
-      setFeedbackMessage(
-        `Failed to update material: ${error.message || "Unknown error"}`
-      );
-      setFeedbackType("error");
+    } catch (error: unknown) {
+      let errorMessage = "Unknown error occurred";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      }
+      setFeedbackMessage(`Failed to add material: ${errorMessage}`);
     } finally {
       setLoading(false);
     }

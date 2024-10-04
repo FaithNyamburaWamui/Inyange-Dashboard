@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
 
     
-    const requestData: any = {};
+    const requestData: { [key: string]: string | File } = {};
     formData.forEach((value, key) => {
       requestData[key] = value;
     });

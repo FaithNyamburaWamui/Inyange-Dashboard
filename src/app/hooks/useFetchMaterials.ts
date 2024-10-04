@@ -14,6 +14,7 @@ export const useFetchMaterials = () => {
         setMaterials(data);
         setLoading(false);
       } catch (err) {
+        console.error('Error fetching materials:', err);
         setError('Failed to fetch materials');
         setLoading(false);
       }
