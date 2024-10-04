@@ -40,5 +40,14 @@ export interface MaterialData {
     [key: string]: CartItem;
   }
   
-  
+  export interface Credentials{
+    email:String;
+    password:String;
+ }
+ 
+ 
+ 
+ 
+ 
+ 
   
