@@ -31,8 +31,8 @@ const DashboardPage: React.FC = () => {
 
   
   const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "Jan", "Feb", "Mar", "April", "May", "June",
+    "July", "Aug", "Sept", "Oct", "Nov", "Dec"
   ];
 
   //  creates an array revenueData with objects for each month
