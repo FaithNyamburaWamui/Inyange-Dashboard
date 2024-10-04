@@ -9,20 +9,11 @@ interface OrderDetailPageProps {
 }
 
 const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
-  const [orderId, setOrderId] = useState<number | null>(null);
-
-  // Parse orderId from params at the beginning
-  useEffect(() => {
-    const parsed = parseInt(params.id, 10);
-    if (!isNaN(parsed) && parsed > 0) {
-      setOrderId(parsed);
-    } else {
-      setOrderId(null); // Set to null if invalid
-    }
-  }, [params.id]); // Depend only on params.id
-
-  const { order, isLoading, error, cancelOrder } = useOrderById(orderId);
+  const orderId = parseInt(params.id, 10); // Parse orderId directly from params
   const [isCancelling, setIsCancelling] = useState(false);
+
+  // Always call useOrderById, even if orderId is invalid
+  const { order, isLoading, error, cancelOrder } = useOrderById(orderId);
 
   useEffect(() => {
     if (order) {
@@ -49,20 +40,11 @@ const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
     }
   };
 
-  if (orderId === null) {
-    return (
-      <div className="p-4">
-        <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
-        <div className="text-red-500 font-bold">Invalid order ID</div>
-      </div>
-    );
-  }
-
   if (isLoading) {
     return <div className='text-[15px] ml-[100px] mt-[100px]'>Loading...</div>;
   }
 
-  if (error)  {
+  if (error) {
     return (
       <div className="p-4">
         <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
@@ -80,7 +62,91 @@ const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
     );
   }
 
+  // Render order details if found
   const orderItems = order.cart_data ? Object.values(order.cart_data) : [];
+
+
+// const OrderDetailPage = ({ params }: OrderDetailPageProps) => {
+//   const orderId = parseInt(params.id, 10); // Parse orderId directly from params
+
+
+//   // Parse orderId from params at the beginning
+//   useEffect(() => {
+//     const parsed = parseInt(params.id, 10);
+//     if (!isNaN(parsed) && parsed > 0) {
+//       setOrderId(parsed);
+//     } else {
+//       setOrderId(null); // Set to null if invalid
+//     }
+//   }, [params.id]); // Depend only on params.id
+
+//   const [isCancelling, setIsCancelling] = useState(false);
+
+// // Check if orderId is a valid number before calling the hook
+// const { order, isLoading, error, cancelOrder } = orderId ? useOrderById(orderId) : { order: null, isLoading: false, error: null, cancelOrder: () => {} };
+
+  
+
+//   // const { order, isLoading, error, cancelOrder } = useOrderById(orderId);
+//   // const [isCancelling, setIsCancelling] = useState(false);
+
+//   useEffect(() => {
+//     if (order) {
+//       console.log('Fetched order:', order);
+//     }
+//   }, [order]);
+
+//   const handleCancel = async () => {
+//     if (!order || isCancelling) return;
+
+//     setIsCancelling(true);
+//     try {
+//       const success = await cancelOrder();
+//       if (success) {
+//         alert('Order cancelled successfully');
+//       } else {
+//         throw new Error('Failed to cancel order');
+//       }
+//     } catch (error) {
+//       console.error('Error cancelling order:', error);
+//       alert('Failed to cancel order');
+//     } finally {
+//       setIsCancelling(false);
+//     }
+//   };
+
+//   if (orderId === null) {
+//     return (
+//       <div className="p-4">
+//         <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
+//         <div className="text-red-500 font-bold">Invalid order ID</div>
+//       </div>
+//     );
+//   }
+
+//   if (isLoading) {
+//     return <div className='text-[15px] ml-[100px] mt-[100px]'>Loading...</div>;
+//   }
+
+//   if (error)  {
+//     return (
+//       <div className="p-4">
+//         <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
+//         <div className="text-red-500">Error: {error}</div>
+//       </div>
+//     );
+//   }
+
+//   if (!order) {
+//     return (
+//       <div className="p-4">
+//         <Link href="/order" className="mb-4 inline-block">&lt; Back</Link>
+//         <div>No order found</div>
+//       </div>
+//     );
+//   }
+
+//   const orderItems = order.cart_data ? Object.values(order.cart_data) : [];
 
   return (
     <div className="p-4">

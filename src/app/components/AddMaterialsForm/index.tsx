@@ -1,53 +1,33 @@
+"use client"
 import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from 'yup';
+import * as yup from "yup";
 import { FaTimes } from "react-icons/fa";
-import { IoCloudUpload } from "react-icons/io5";
 import { addMaterial } from "@/app/utils/addMaterials";
-import Image from 'next/image';
+import { MaterialData } from "../../utils/types";
 
-interface MaterialData {
-  material_name: string;
-  brand_name: string;
-  category_name: string;
-  description: string;
-  quantity: number;
-  price: number;
-  image: File | null | undefined;
-}
-
-const schema = Yup.object().shape({
-  image: Yup.mixed()
-    .required('Image is required')
-    .test('fileType', 'Unsupported file format', value => {
-      return value && value instanceof File; // Ensure it's a File type
-    }),
-  material_name: Yup.string().required('Material name is required'),
-  brand_name: Yup.string().required('Brand name is required'),
-  category_name: Yup.string().required('Category name is required'),
-  description: Yup.string().required('Description is required'),
-  quantity: Yup.number().required('Quantity is required').positive().integer(),
-  price: Yup.number().required('Price is required').positive(),
+const schema = yup.object().shape({
+  material_name: yup.string().required("Material name is required"),
+  brand_name: yup.string().required("Brand name is required"),
+  category_name: yup.string().required("Category name is required"),
+  description: yup.string().required("Description is required"),
+  quantity: yup.number().required("Quantity is required").positive().integer(),
+  price: yup.number().required("Price is required").positive(),
 });
 
 const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
   const [loading, setLoading] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
-  const [feedbackType, setFeedbackType] = useState<"success" | "error" | null>(
-    null
-  );
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [feedbackType, setFeedbackType] = useState<"success" | "error" | null>(null);
 
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors },
   } = useForm<MaterialData>({
-
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as unknown as Resolver<MaterialData>,
     defaultValues: {
       material_name: "",
       brand_name: "",
@@ -55,25 +35,8 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
       description: "",
       quantity: 0,
       price: 0,
-      image: null,
     },
   });
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setValue("image", null, { shouldValidate: true });
-      setImagePreview(URL.createObjectURL(file));
-    } else {
-      setValue("image", null, { shouldValidate: true });
-      setImagePreview(null);
-    }
-  };
-
-  const removeImage = () => {
-    setValue("image", null, { shouldValidate: true });
-    setImagePreview(null);
-  };
 
   const onSubmit: SubmitHandler<MaterialData> = async (data) => {
     setLoading(true);
@@ -89,20 +52,21 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
         setFeedbackMessage("Material added successfully!");
         setFeedbackType("success");
         reset();
-        setImagePreview(null);
       }
-    } catch (error: unknown) {
-      let errorMessage = "Unknown error occurred";
+    }catch (error: unknown) {
+      let errorMessage = "Failed to add material: Unknown error";
+  
       if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === "string") {
-        errorMessage = error;
+        errorMessage = `Failed to add material: ${error.message}`;
       }
-      setFeedbackMessage(`Failed to add material: ${errorMessage}`);
+  
+      setFeedbackMessage(errorMessage);
+      setFeedbackType("error");
     } finally {
-      setLoading(false);
+      setLoading(false);  
     }
   };
+  
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
@@ -163,7 +127,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
               <select
                 {...register("category_name")}
                 className={`w-full border px-3 py-2 rounded-md ${
-                  errors.brand_name ? "border-red-500" : ""
+                  errors.category_name ? "border-red-500" : ""
                 }`}
               >
                 <option value="">Select a category</option>
@@ -201,58 +165,8 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
             </div>
 
             <div>
-              <label className="block text-2xl font-medium mb-1">
-                Add Material Photo
-              </label>
-              <div className="border border-dashed border-gray-300 rounded-md p-4 text-center relative">
-                <input
-                  type="file"
-                  onChange={handleImageChange}
-                  className="hidden"
-                  id="materialImage"
-                  accept="image/*"
-                />
-                {imagePreview ? (
-                  <div className="relative">
-                    <Image
-                      src={imagePreview}
-                      alt="Preview"
-                      width={100} 
-                      height={100}
-                      className="max-h-24 mx-auto"
-
-                    />
-                    <button
-                      type="button"
-                      onClick={removeImage}
-                      className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                    >
-                      <FaTimes />
-                    </button>
-                  </div>
-                ) : (
-                  <label
-                    htmlFor="materialImage"
-                    className="cursor-pointer flex flex-col items-center justify-center h-24"
-                  >
-                    <IoCloudUpload className="text-[#F8B612] text-2xl mb-2" />
-                    <span className="text-sm text-[#F8B612] font-bold">
-                      Click to browse
-                    </span>
-                    <span className="text-xs text-gray-400">
-                      No file chosen
-                    </span>
-                  </label>
-                )}
-                {errors.image && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.image?.message}
-                  </p>
-                )}
-              </div>
-
               <div>
-                <label className="block text-2xl font-medium mb-1 mt-4">
+                <label className="block text-2xl font-medium mb-1">
                   Quantity <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -277,7 +191,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
                   type="number"
                   {...register("price")}
                   className={`w-full border px-3 py-2 rounded-md ${
-                    errors.quantity ? "border-red-500" : ""
+                    errors.price ? "border-red-500" : ""
                   }`}
                 />
                 {errors.price && (

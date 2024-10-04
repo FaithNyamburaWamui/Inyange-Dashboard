@@ -11,9 +11,7 @@ export const editMaterial = async (details: MaterialData) => {
         formData.append('quantity', data.quantity.toString());
         formData.append('price', data.price.toString());
 
-        if (data.image && typeof data.image !== 'string') {
-            formData.append('image', data.image);
-        }
+      
 
         return formData;
     };
@@ -32,8 +30,12 @@ export const editMaterial = async (details: MaterialData) => {
 
         return await response.json();
         
-    } catch (error) {
-        console.error("Fetch error:", error); 
-        return { error: error.message };
-    }
+    } catch (error: unknown) { // Specify the error type as unknown
+        // Check if the error is an instance of Error
+        if (error instanceof Error) {
+          return { error: error.message }; // Now you can safely access error.message
+        } else {
+          return { error: 'An unknown error occurred.' }; // Handle non-Error cases
+        }
+}
 };

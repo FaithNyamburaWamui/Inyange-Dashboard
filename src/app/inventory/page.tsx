@@ -7,7 +7,6 @@ import EditMaterialForm from "../components/EditMaterialsModal";
 import { FaPlus, FaPencilAlt } from "react-icons/fa";
 import { MaterialData } from "@/app/utils/types";
 import Layout from "../components/Layout";
-import Image from 'next/image';
 
 
 
@@ -22,7 +21,6 @@ const InventoryPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  const placeholderImage = "/images/duracem.jpg";
 
   const filteredMaterials = materials.filter(
     (material: { material_name: string }) =>
@@ -101,13 +99,13 @@ const InventoryPage: React.FC = () => {
                   <tr key={material.material_id}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <Image
+                        {/* <Image
                           src={material.image || placeholderImage}
                           alt={material.material_name}
                           className="rounded-full mr-3"
                           width={40} // width for the image (e.g., 10 * 4 = 40px)
                           height={40} // height for the image (e.g., 10 * 4 = 40px)
-                        />
+                        /> */}
                         <span>{material.material_name}</span>
                       </div>
                     </td>

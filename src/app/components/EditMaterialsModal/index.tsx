@@ -34,16 +34,12 @@ const EditMaterialModal = ({
   const [feedbackType, setFeedbackType] = useState<"success" | "error" | null>(
     null
   );
-  const [imagePreview, setImagePreview] = useState<string | null>(
-    materialData && typeof materialData.image === "string"
-      ? materialData.image
-      : null
-  );
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
 
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors },
   } = useForm<MaterialData>({
@@ -51,29 +47,9 @@ const EditMaterialModal = ({
     defaultValues: materialData || {},
   });
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setValue("image", file, { shouldValidate: true });
-      setImagePreview(URL.createObjectURL(file));
-    } else {
-      setValue("image", null, { shouldValidate: true });
-      setImagePreview(
-        materialData && typeof materialData.image === "string"
-          ? materialData.image
-          : null
-      );
-    }
-  };
+ 
 
-  const removeImage = () => {
-    setValue("image", null, { shouldValidate: true });
-    setImagePreview(
-      materialData && typeof materialData.image === "string"
-        ? materialData.image
-        : null
-    );
-  };
+ 
 
   const onSubmit: SubmitHandler<MaterialData> = async (data) => {
     if (!materialData) return;
@@ -206,7 +182,6 @@ const EditMaterialModal = ({
                 <div className="border border-dashed border-gray-300 rounded-md p-4 text-center relative">
                   <input
                     type="file"
-                    onChange={handleImageChange}
                     className="hidden"
                     id="materialImage"
                     accept="image/*"
@@ -222,7 +197,6 @@ const EditMaterialModal = ({
                       />
                       <button
                         type="button"
-                        onClick={removeImage}
                         className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
                       >
                         <FaTimes />
@@ -242,7 +216,6 @@ const EditMaterialModal = ({
                       </span>
                     </label>
                   )}
-                  {renderError("image")}
                 </div>
               </div>
 
