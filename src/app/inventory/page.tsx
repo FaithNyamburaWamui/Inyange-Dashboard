@@ -50,12 +50,12 @@ const InventoryPage: React.FC = () => {
   return (
     <Layout>
       <div className="p-4 flex flex-col">
-      <h2 className="text-4xl font-bold">Inventory</h2>
-        <div className="flex justify-end items-center mb-10">
+      <h2 className="text-3xl font-bold">Inventory</h2>
+        <div className="flex justify-end items-center mb-6">
           
           <div className="flex items-center">
             <button
-              className="bg-[#F8B612] text-white px-4 py-2 rounded-md flex items-center text-xl"
+              className="bg-[#F8B612] text-white px-4 py-2 rounded-md flex items-center"
               onClick={handleAddNewClick}
             >
               <FaPlus className="mr-2" /> Add New
@@ -69,13 +69,13 @@ const InventoryPage: React.FC = () => {
           <p className="text-red-500">{error}</p>
         ) : (
           <div className="bg-white rounded-lg shadow flex-grow overflow-x-auto">
-            <table className="min-w-full w-full text-2xl">
+            <table className="min-w-full w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-8 text-left text-2xl font-bold uppercase tracking-wider">Material</th>
-                  <th className="px-6 py-8 text-left text-2xl font-bold uppercase tracking-wider">Price</th>
-                  <th className="px-6 py-8 text-left text-2xl font-bold uppercase tracking-wider">Quantity</th>
-                  <th className="px-6 py-8 text-left text-2xl font-bold uppercase tracking-wider">Action</th>
+                  <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Material</th>
+                  <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Price</th>
+                  <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Quantity</th>
+                  <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider">Action</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -91,9 +91,9 @@ const InventoryPage: React.FC = () => {
                         <span>{material.material_name}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-9 whitespace-nowrap">KES {material.price}</td>
-                    <td className="px-6 py-9 whitespace-nowrap">{material.quantity}</td>
-                    <td className="px-6 py-9 whitespace-nowrap text-sm font-medium">
+                    <td className="px-6 py-4 whitespace-nowrap">KES {material.price}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{material.quantity}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => handleEditClick(material)}
                         className="text-green-600 hover:text-green-900 mr-3"
@@ -120,7 +120,7 @@ const InventoryPage: React.FC = () => {
             <button
               key={index}
               onClick={() => setCurrentPage(index + 1)}
-              className={`px-4 py-2 mx-1 text-xl rounded-md ${
+              className={`px-4 py-2 mx-1 rounded-md ${
                 currentPage === index + 1 ? 'bg-[#F8B612] text-white' : 'bg-gray-200'
               }`}
             >

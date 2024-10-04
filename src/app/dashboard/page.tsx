@@ -80,7 +80,7 @@ const DashboardPage: React.FC = () => {
   return (
     <div>
       <div className="flex justify-center" >
-      <h1 className="text-center text-l md:text-[32px] font-bold mt-8 mb-4">Dashboard</h1>
+      <h1 className="text-center text-l md:text-2xl font-bold mt-8 mb-4">Dashboard</h1>
       </div>
 
       <div className="flex justify-center items-center flex-col mt-10">
@@ -89,7 +89,7 @@ const DashboardPage: React.FC = () => {
           <DashboardCard title="Brands Bought" value={brandsBought.toLocaleString()} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3 w-full max-w-8xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3 w-full max-w-5xl">
           <BarChartComponent
             data={revenueData}
             xAxisKey="month" 
@@ -114,4 +114,3 @@ const DashboardPage: React.FC = () => {
 };
 
 export default DashboardPage;
-

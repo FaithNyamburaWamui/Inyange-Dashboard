@@ -98,20 +98,20 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-7xl">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-5xl">
         <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-3xl font-bold text-[#263C5A]">Add Materials</h2>
+          <h2 className="text-2xl font-bold text-[#263C5A]">Add Materials</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <FaTimes className="w-6 h-6" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="p-20">
+        <form onSubmit={handleSubmit(onSubmit)} className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
             <div>
-            <div className='text-3xl'>
-              <label className="block font-medium text-2xl mb-1">
+            <div>
+              <label className="block text-sm font-medium mb-1">
                 Material Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -124,7 +124,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
 
           
             <div>
-              <label className="block font-medium mb-1 mt-4 text-2xl">
+              <label className="block text-sm font-medium mb-1 mt-4">
                 Brand Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -137,7 +137,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
 
             
         
-              <label className="block text-2xl font-medium mb-1 mt-4">
+              <label className="block text-sm font-medium mb-1 mt-4">
                 Category Name <span className="text-red-500">*</span>
               </label>
               
@@ -155,7 +155,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
            
            
             <div>
-              <label className="block text-2xl font-medium mb-1 mt-4">
+              <label className="block text-sm font-medium mb-1 mt-4">
                 Description <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -172,7 +172,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
 
             
             <div>
-              <label className="block text-2xl font-medium mb-1">Add Material Photo</label>
+              <label className="block text-sm font-medium mb-1">Add Material Photo</label>
               <div className="border border-dashed border-gray-300 rounded-md p-4 text-center relative">
                 <input
                   type="file"
@@ -206,7 +206,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
               </div>
 
               <div>
-              <label className="block text-2xl font-medium mb-1 mt-4">
+              <label className="block text-sm font-medium mb-1 mt-4">
                 Quantity <span className="text-red-500">*</span>
               </label>
               <input
@@ -218,7 +218,7 @@ const AddMaterialModal = ({ onClose }: { onClose: () => void }) => {
             </div>
 
             <div>
-              <label className="block text-2xl font-medium mb-1 mt-4">
+              <label className="block text-sm font-medium mb-1 mt-4">
                 Price <span className="text-red-500">*</span>
               </label>
               <input
