@@ -12,9 +12,7 @@ export const addMaterial = async (details: MaterialData) => {
     formData.append('quantity', data.quantity.toString());
     formData.append('price', data.price.toString());
 
-    if (data.image) {
-      formData.append('image', data.image);  
-    }
+   
     return formData;
   };
 
@@ -30,9 +28,15 @@ export const addMaterial = async (details: MaterialData) => {
       throw new Error(result.error || 'Failed to add material');
     }
     return result;
-  } catch (error) {
-    return { error: error.message };
-  }
+  }catch (error: unknown) { // Specify the error type as unknown
+    // Check if the error is an instance of Error
+    if (error instanceof Error) {
+      return { error: error.message }; // Now you can safely access error.message
+    } else {
+      return { error: 'An unknown error occurred.' }; // Handle non-Error cases
+    }
 };
 
 
+
+}
